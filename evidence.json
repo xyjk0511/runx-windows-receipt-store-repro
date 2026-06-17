@@ -1,0 +1,35 @@
+{
+  "schema": "frantic.runx_bug_failing_test.v1",
+  "bounty_number": 3,
+  "bounty_title": "Prove a substantial runx bug with a failing test",
+  "operator": "xyjk0511",
+  "generated_at_utc": "2026-06-17T12:38:12Z",
+  "bug": {
+    "title": "Windows receipt store uses raw sha256 receipt ids as filenames",
+    "impact": "user-facing",
+    "observed_error": "receipt store is unreadable: 参数错误。 (os error 87)",
+    "distinct_from": "No matching existing runxhq/runx issue found for receipt store Windows/os error 87 searches before filing upstream issue #74."
+  },
+  "artifacts": {
+    "repo_url": "https://github.com/xyjk0511/runx-windows-receipt-store-repro",
+    "commit_url": "https://github.com/xyjk0511/runx-windows-receipt-store-repro/commit/992ba27f71d7db2d1c6b3f8ce49dc918d6cdb19e",
+    "issue_url": "https://github.com/runxhq/runx/issues/74",
+    "failing_test_path": "test.ps1",
+    "analysis_path": "analysis.md"
+  },
+  "reproduction": {
+    "environment": {
+      "os": "Windows",
+      "cli": "runx-cli 0.6.1"
+    },
+    "command": "powershell -ExecutionPolicy Bypass -File .\\\\test.ps1",
+    "expected_when_fixed": "Exit 0 and create at least one .json receipt file under .tmp/receipts/",
+    "observed_exit_code": 1,
+    "observed_output": "{\"error\":{\"code\":\"skill_error\",\"message\":\"receipt store is unreadable: 参数错误。 (os error 87)\"},\"status\":\"failure\"}"
+  },
+  "root_cause": {
+    "file": "crates/runx-runtime/src/receipts/store.rs",
+    "function": "receipt_file_name",
+    "why": "The function returns `<receipt_id>.json` and rejects slash characters but does not encode or reject `:`. Receipt ids commonly begin with `sha256:`, producing Windows-invalid filenames."
+  }
+}
