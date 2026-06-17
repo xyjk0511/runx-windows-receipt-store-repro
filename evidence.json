@@ -12,7 +12,7 @@
   },
   "artifacts": {
     "repo_url": "https://github.com/xyjk0511/runx-windows-receipt-store-repro",
-    "commit_url": "https://github.com/xyjk0511/runx-windows-receipt-store-repro/commit/992ba27f71d7db2d1c6b3f8ce49dc918d6cdb19e",
+    "commit_url": "https://github.com/xyjk0511/runx-windows-receipt-store-repro/commit/6fb029e86c902c098eb15fe9e5ca51e51ce751ac",
     "issue_url": "https://github.com/runxhq/runx/issues/74",
     "failing_test_path": "test.ps1",
     "analysis_path": "analysis.md"
